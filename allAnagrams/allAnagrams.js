@@ -29,7 +29,8 @@ var allAnagrams3 = function(string) {
 };
 
 // recursive function to make work for any string length
-var allAnagrams = function(string) {
+// 1rst recursive solution
+var allAnagramsRec = function(string) {
 	var results = [];
 
 	var rec = function(result, indexList){
@@ -52,5 +53,22 @@ var allAnagrams = function(string) {
 	return [ ...new Set(results) ];
 };
 
+// improve and final solution
+var allAnagrams = function(string) {
+ 
+  var uniqueOutput = {};
+
+  (function anagram (ana, str) {
+    if (str === '') { uniqueOutput[ana] = 1; }
+
+    for (var i = 0; i < str.length; i++) {
+      anagram(ana + str[i], str.slice(0, i) + str.slice(i + 1));
+    }
+  })('', string);
+
+  return Object.keys(uniqueOutput);
+};
+
 allAnagrams3('aab');
+allAnagramsRec('aab');
 allAnagrams('aab');
