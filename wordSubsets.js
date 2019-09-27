@@ -135,10 +135,72 @@ var wordSubsets2 = function(A, B) {
 	return universalList
 };
 
+
+// Even better
+// For example, when checking whether "warrior" is a superset of words B = ["wrr", "wa", "or"], we can combine these words in B to form a "maximum" word "arrow", that has the maximum count of every letter in each word in B.
+
+var wordSubsets3 = function(A, B){
+
+	var maximumWordList = []
+
+	function wordCount(word){
+		var count = {}
+		for (let i = 0; i < word.length; i++){
+			if (!count[word[i]]){
+				count[word[i]] = 1
+			} else {
+				count[word[i]] += 1
+			}
+		}
+		return count
+	}
+	
+	// create the maxium word with B {a:1, c:2, ...}
+	var maximumWord = {}
+
+	for (let j = 0; j < B.length; j++){
+		let count = wordCount(B[j])
+		for (var key in count){
+			if (!maximumWord[key]){
+				maximumWord[key] = count[key]
+			} else{
+				maximumWord[key] = Math.max(maximumWord[key], count[key])
+			}
+		}
+	}
+
+	// compare each word in A to the maximum word
+	for (let i = 0; i < A.length; i++){
+
+		var isMaximum = true  
+		let count = wordCount(A[i])
+
+		for (var key in maximumWord){
+			if (!count[key]){
+				isMaximum = false
+				break;
+			} 
+			if (count[key] < maximumWord[key]){
+				isMaximum = false
+				break;
+			}
+		}
+
+		if (isMaximum){
+			maximumWordList.push(A[i])
+		}
+
+	}
+
+	return maximumWordList
+
+}
+
+
 //console.log(wordSubsets(['caterpillar', 'coton'], ['cat', 'pillar']))
 //console.log(wordSubsets(['cat', 'doggy', 'car', 'bike'], ['caterpillar', 'dog', 'motor']))
 
-console.log(wordSubsets2(["amazon","apple","facebook","google","leetcode"],["lo","eo"]))
+console.log(wordSubsets3(["amazon","apple","facebook","google","leetcode"],["loo","eoll"]))
 
 //console.log(wordSubsets2(['caterpillar', 'coton'], ['cat', 'pillar']))
 //console.log(wordSubsets2(['cat', 'doggy', 'car', 'bike'], ['caterpillar', 'dog', 'motor']))
