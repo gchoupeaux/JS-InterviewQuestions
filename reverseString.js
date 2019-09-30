@@ -19,7 +19,11 @@ function reverse1(str){
 }
 
 function reverse2(str){
-	return str.split('').reverse().join('')
+	if (typeof(str) === "string"){
+		return str.split('').reverse().join('')
+	} else{
+		return null
+	}
 }
 
 reverse("baba")
